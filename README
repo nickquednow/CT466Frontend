@@ -1,1 +1,23 @@
 Front End Interface for CT466
+
+Items to resolve:
+    Define User Interface (UI) Requirements:
+        Identify the essential features for the index page design (e.g. login page as index, username/password fields, login button, password reset link, error message display).
+
+    Choose a Front-End Framework:
+        Decide on a front-end development framework. React, Angular, etc. Likely going to choose React for it's 
+
+    Develop the Login Page:
+        Code the login page according to the design mockups.
+
+    Integrate Backend Authentication:
+        Connect the login page with the backend for user authentication. i.e Setting up API endpoints and handling secure data transmission.
+
+    Test the Login Functionality:
+        Perform both unit tests and user acceptance tests to ensure the login page works as intended across different devices and browsers.
+
+    Implement Security Measures:
+        Ensure that the login process is secured (i.e using HTTPS, protecting against SQL injection and cross-site scripting).
+
+    Prepare for Deployment:
+        Get the login page ready for deployment, including minifying code and optimizing performance.
