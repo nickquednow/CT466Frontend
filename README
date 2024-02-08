@@ -1,14 +1,8 @@
 Front End Interface for CT466
 
+Casing convention: Pascal case for functions, camelCase for component instances, 4 Spaces for indentation (Or 4 space tabs)
+
 Items to resolve:
-    Define User Interface (UI) Requirements:
-        Identify the essential features for the index page design (e.g. login page as index, username/password fields, login button, password reset link, error message display).
-
-    Choose a Front-End Framework:
-        Decide on a front-end development framework. React, Angular, etc. Likely going to choose React for it's 
-
-    Develop the Login Page:
-        Code the login page according to the design mockups.
 
     Integrate Backend Authentication:
         Connect the login page with the backend for user authentication. i.e Setting up API endpoints and handling secure data transmission.
