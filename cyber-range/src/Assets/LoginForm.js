@@ -1,5 +1,7 @@
 import React, { /*useEffect*/ useState } from "react";
 import './LoginForm.css';
+import { useNavigate } from 'react-router-dom';
+
 
 function LoginForm() {
   const [email, setEmail] = useState('');
@@ -10,9 +12,10 @@ function LoginForm() {
   const handleMessageChange = (event) => setMessage(event.target.value);
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // Example API call here sinec I don't have the whole thing, this is effectively just a pass
+    setErrorMessage('');
+
     try {
-      const response = await fetch('SOME_API_ENDPOINT/login', {
+      const response = await fetch('https://example.com/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -20,15 +23,18 @@ function LoginForm() {
         body: JSON.stringify({ email, password }),
       });
       const data = await response.json();
+
       if (response.ok) {
         console.log('Login successful', data);
-        // Handle successful login, e.g., navigate to another page or store the user token
+        // Redirect to Home page
+        navigate('/home');
       } else {
         console.error('Login failed', data.message);
-        // Handle errors, e.g., show an error message
+        setErrorMessage(data.message || 'Login failed. Please try again.');
       }
     } catch (error) {
       console.error('Login error', error);
+      setErrorMessage('An error occurred. Please try again.');
     }
   };
   
@@ -63,6 +69,7 @@ function LoginForm() {
                             <i className="input-icon uil uil-lock-alt"></i>
                           </div>
                           <button type="submit" className="btn mt-4">Login</button>
+                          {errorMessage && <div className="error-message">{errorMessage}</div>}
                           <p className="mb-0 mt-4 text-center"><a href="#forgot" className="link">Forgot your password?</a></p>
                         </form>
                       </div>
