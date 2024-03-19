@@ -1,36 +1,55 @@
-import React, { /*useEffect*/ useState } from "react";
+import React, { useEffect, useState } from "react";
 import './LoginForm.css';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../AuthContext';
+
 
 function LoginForm() {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-  const handleEmailChange = (event) => setEmail(event.target.value);
+  const navigate = useNavigate();
+
+  const handleUsernameChange = (event) => setUsername(event.target.value);
   const handlePasswordChange = (event) => setPassword(event.target.value);
   const handleMessageChange = (event) => setMessage(event.target.value);
-  const handleSubmit = async (event) => {
+
+  /*const handleSubmit = async (event) => {
     event.preventDefault();
-    // Example API call here sinec I don't have the whole thing, this is effectively just a pass
+
+    const formData = new FormData();
+    formData.append("request", JSON.stringify({ username, password }));
+
     try {
-      const response = await fetch('SOME_API_ENDPOINT/login', {
+      const response = await fetch('/attempt.php', { // Adjust the URL based on where this is set up
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
+        body: formData, // Sending FormData directly
       });
+
       const data = await response.json();
-      if (response.ok) {
+
+      if (data.success) {
         console.log('Login successful', data);
-        // Handle successful login, e.g., navigate to another page or store the user token
+        navigate('/home'); // Redirect on success using the react router
       } else {
-        console.error('Login failed', data.message);
-        // Handle errors, e.g., show an error message
+        console.error('Login failed');
+        //Give error details here
       }
     } catch (error) {
       console.error('Login error', error);
+      // Handle network or unexpected errors over here
     }
+  };*/
+  const { isAuthenticated, login } = useAuth(); // Destructure isAuthenticated from useAuth
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    login(username, password); // Call login with the username and password
   };
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/home');
+    }
+  }, [isAuthenticated, navigate]); // Add navigate to dependency array
   
   return (
     <div className="section">
@@ -46,11 +65,17 @@ function LoginForm() {
                   <div className="card-front">
                     <div className="center-wrap">
                       <div className="section text-center">
-                      <form onSubmit={handleSubmit}>
+                      <form onSubmit={handleSubmit}> {/*USERNAME AND PASSWORD FIELDS*/}
                           <h4 className="mb-4 pb-3">Log In</h4>
                           <div className="form-group">
-                            <input type="email" className="form-style" placeholder="Email" value={email} onChange={handleEmailChange}/>
-                            <i className="input-icon uil uil-at"></i>
+                            <input 
+                                type="text" 
+                                className="form-style" 
+                                placeholder="Email or Username" 
+                                value={username} 
+                                onChange={handleUsernameChange}
+                                />
+                                <i className="input-icon uil uil-at"></i>
                           </div>  
                           <div className="form-group mt-2">
                             <input 
@@ -84,7 +109,7 @@ function LoginForm() {
                           <textarea
                             className="form-style"
                             placeholder="Your message here..."
-                            rows="4" // Specifies the initial number of rows
+                            rows="4"
                             value={message}
                             onChange={handleMessageChange}
                             style={{ resize: 'none' }}
